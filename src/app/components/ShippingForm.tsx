@@ -1,6 +1,70 @@
-const ShippingForm = () => {
+import { ShippingFormInputs, shippingFormSchema } from "@/types"
+import {Form, SubmitHandler, useForm} from "react-hook-form"
+import {zodResolver} from "@hookform/resolvers/zod"
+import {  useRouter } from "next/navigation"
+import { ArrowRight } from "lucide-react"
+
+const ShippingForm = ({setShippingForm}:{setShippingForm:(data:ShippingFormInputs)=>void}) => {
+
+    const {register,
+        handleSubmit,
+        formState: {errors}
+    } = useForm<ShippingFormInputs>({
+        resolver:zodResolver(shippingFormSchema),
+    })
+
+    const router = useRouter()
+
+    const handleShippingForm:SubmitHandler<ShippingFormInputs> = (data) => {
+                 setShippingForm(data)
+                 router.push("cart/?step=3", {scroll:false})
+                }
     return(
-        <div>ShippingForm</div>
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit(handleShippingForm)}>
+           <div className="flex flex-col gap-1">
+            <label htmlFor="name" className="text-xs text-gray-500">Name:</label>
+            <input className="border-b border-gray-200 py-2 outline-none text-sm" type="text" id="name" placeholder="Johns Doe" {...register("name")} />
+            {errors.name && 
+            <p className="text-xs text-red-500">{errors.name.message}</p>
+            }
+           </div>
+           <div className="flex flex-col gap-1">
+            <label htmlFor="email" className="text-xs text-gray-500">Email:</label>
+            <input className="border-b border-gray-200 py-2 outline-none text-sm" type="email" id="email" placeholder="example@gmail.com" {...register("email")} />
+            {errors.email && 
+            <p className="text-xs text-red-500">{errors.email.message}</p>
+            }
+           </div>
+           <div className="flex flex-col gap-1">
+            <label htmlFor="phone" className="text-xs text-gray-500">Phone:</label>
+            <input className="border-b border-gray-200 py-2 outline-none text-sm" type="text" id="phone" placeholder="91 -XXXXXXX" {...register("phone")} />
+            {errors.phone && 
+            <p className="text-xs text-red-500">{errors.phone.message}</p>
+            }
+           </div>
+           <div className="flex flex-col gap-1">
+            <label htmlFor="address" className="text-xs text-gray-500">Adress:</label>
+            <input className="border-b border-gray-200 py-2 outline-none text-sm" type="text" id="address" placeholder="Enter your current address" {...register("address")} />
+            {errors.address && 
+            <p className="text-xs text-red-500">{errors.address.message}</p>
+            }
+           </div>
+           <div className="flex flex-col gap-1">
+            <label htmlFor="city" className="text-xs text-gray-500">City:</label>
+            <input className="border-b border-gray-200 py-2 outline-none text-sm" type="text" id="city" placeholder="Delhi" {...register("city")} />
+            {errors.city && 
+            <p className="text-xs text-red-500">{errors.city.message}</p>
+            }
+           </div>
+            <button
+              type="submit"
+              className="w-full bg-gray-800 cursor-pointer hover:bg-gray-900 transition-all duration-300 text-white p-2 rounded-lg flex items-center justify-center gap-2"
+            >
+              Continue
+              <ArrowRight className="w-3 h-3" />
+            </button>
+          
+        </form>
     )
 }
 
