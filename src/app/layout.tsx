@@ -35,10 +35,10 @@ export default function RootLayout({
         <div className="mx-auto p-4 sm:max-w-xl md:max-w-2xl lg:max-w-6xl">
           <Navbar />
           {children}
-          <ProductList/>
+          
           <Footer/>
         </div>
-        <ToastContainer postion="bottom-right"/>
+        <ToastContainer position="bottom-right"/>
       </body>
     </html>
   );
